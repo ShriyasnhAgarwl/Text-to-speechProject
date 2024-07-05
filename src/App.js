@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { TextToSpeech } from "./pages";
 function App() {
   return (
-    <div className="">
+    <div className="font-['poppins']">
       <Page page={<TextToSpeech />} />
     </div>
   );

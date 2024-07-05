@@ -15,15 +15,27 @@ const TextToSpeechContainer = () => {
     setIsLoading(true);
     setError("");
     try {
-      const response = await fetch("/api/text-to-speech", {
+      const response = await fetch("http://localhost:5000/synthesize", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ text }),
       });
-      const data = await response.json();
-      setAudioUrl(data.audioUrl);
+
+      if (!response.ok) {
+        throw new Error("Failed to convert text to speech.");
+      }
+      console.log(response);
+      // Create a blob from the response data
+      const audioData = await response.arrayBuffer(); // Use arrayBuffer() to get binary data
+
+      // Create a blob from the response data
+      const blob = new Blob([audioData], { type: "audio/mp3" });
+
+      // Create a URL for the blob
+      const audioUrl = URL.createObjectURL(blob);
+      setAudioUrl(audioUrl);
     } catch (error) {
       setError("Failed to convert text to speech.");
     } finally {
