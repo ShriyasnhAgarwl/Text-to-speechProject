@@ -1,7 +1,28 @@
 import "./App.css";
-
+import { Suspense } from "react";
+import { TextToSpeech } from "./pages";
 function App() {
-  return <div className="flex h-screen justify-center items-center">Hello</div>;
+  return (
+    <div className="">
+      <Page page={<TextToSpeech />} />
+    </div>
+  );
 }
 
+function Page(props) {
+  return (
+    <Suspense
+      fallback={
+        <div role="status" className="text-center">
+          <div className="right-1/2 bottom-1/2 translate-x-1/2 translate-y-1/2">
+            <div className="border-t-transparent border-solid animate-spin  rounded-full border-blue-400 border-8 h-28 w-28"></div>
+          </div>
+          <span className="sr-only">Loading...</span>
+        </div>
+      }
+    >
+      {props.page}
+    </Suspense>
+  );
+}
 export default App;
